@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/styles/main.css">
+  <title><%= title %></title>
+</head>
+<body>
+  <h1><%= title %></h1>
+  <ul>
+    <% tasks.forEach((task, index) => { %>
+      <li>
+        <% if (task.status === 'completed') { %>
+          <del><%= task.title %></del>
+        <% } else { %>
+          <%= task.title %>
+        <% } %>
+        <form action="/complete" method="post" style="display: inline;">
+          <input type="hidden" name="taskIndex" value="<%= index %>">
+          <input type="hidden" name="category" value="<%= task.category %>">
+          <button type="submit">Complete</button>
+        </form>
+        <form action="/delete" method="post" style="display: inline;">
+          <input type="hidden" name="taskIndex" value="<%= index %>">
+          <input type="hidden" name="category" value="<%= task.category %>">
+          <button type="submit">Delete</button>
+        </form>
+      </li>
+    <% }); %>
+  </ul>
+  <form action="/add" method="post">
+    <input type="text" name="task" placeholder="Add a new task" required>
+    <label for="category">Category:</label>
+    <select name="category" id="category">
+      <option value="day">Day</option>
+      <option value="work">Work</option>
+    </select>
+    <button type="submit">Add Task</button>
+  </form>
+</body>
+</html>
